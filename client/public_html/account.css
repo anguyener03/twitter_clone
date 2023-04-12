@@ -1,0 +1,92 @@
+/* css for the account login/ creation page
+*/
+body {
+    background-color: #113f67;
+    font-family: Arial, sans-serif;
+    overflow: hidden;
+  }
+  
+  .segment {
+    background-color: #1DA1F2;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+  }
+  .formDiv{
+    background-color:#a2a8d3;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px #888888;
+    margin: 20px auto;
+    max-width: 400px;
+    padding: 20px;
+  }
+  
+  div div {
+    color: #e7eaf6;
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  label {
+    display: block;
+    font-size: 18px;
+    margin-bottom: 5px;
+  }
+  p{
+    margin: 0px;
+    padding: 0px;
+    font-size: 14px;
+  }
+  
+  input[type="text"],
+  input[type="password"]{
+    background-color: #E8F6FF;
+    border-radius: 5px;
+    border: none;
+    font-size: 16px;
+    padding: 10px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  input[type="text"],
+  input[type="password"] {
+    margin-bottom: 10px;
+  }
+  .link{
+    color: #e7eaf6;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .link:hover{ 
+    text-decoration: underline;
+  }
+  input[type="button"] {
+    background-color: #38598b;
+    color: #e7eaf6;
+    cursor: pointer;
+    text-align: center;
+    border-radius: 5px;
+    border: none;
+    font-size: 16px;
+    padding: 15px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  input[type="button"]:hover{
+    background-color: #113f67 ;
+  }
+  input[type="button"]:active{
+    transform: scale(0.98);
+  }
+  .hidden{
+    display: none;
+  }
+  .formMessage{
+    color:red;
+    font-size: 16px;
+  }
+  
