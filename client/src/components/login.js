@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded",()=>{
     /**
      * Handles the creation of a user
      */
-    document.getElementById("createButton").addEventListener("click",(e) =>{
+    document.getElementById("createButton").addEventListener("click",async (e) =>{
         // checks to see if anyfields are blank
         if(createUserPassword.value == "" || createUserUsername.value=="blank"){
             createUserPassword.value == "";
@@ -31,8 +31,15 @@ document.addEventListener("DOMContentLoaded",()=>{
             document.querySelector("#createMessage").classList.remove("hidden");
             document.querySelector("#createMessage").textContent = "Please fill out all the Fields"
         }
+        document.querySelector("#createMessage").classList.add("hidden");
         // sends the username and password to the backend
-        createAccount(createUserUsername.value,createUserPassword.value);
+        const user = await createAccount(createUserUsername.value,createUserPassword.value).catch(error =>{
+          document.querySelector("#createMessage").classList.remove("hidden");
+          document.querySelector("#createMessage").textContent = "Username already Taken"
+        });
+        // if sucess go to login page
+        createForm.classList.add("hidden");
+        loginForm.classList.remove("hidden");
     });
     /*handles logins
     */
@@ -40,7 +47,6 @@ document.addEventListener("DOMContentLoaded",()=>{
    const loginPassword = document.querySelector("#passwordLogin");
    document.getElementById("loginButton").addEventListener("click",(e) =>{
     //checks to see if any fields are blank
-    // checks to see if anyfields are blank
     if(loginUsername.value == "" || loginPassword.value=="blank"){
         loginUsername.value == "";
         loginPassword.value == "";
@@ -48,11 +54,12 @@ document.addEventListener("DOMContentLoaded",()=>{
         document.querySelector("#loginMessage").classList.remove("hidden");
         document.querySelector("#loginMessage").textContent = "Please fill out all the Fields"
     }
+
    });
     
 });
-function createAccount(username, password) {
-    const url = './';
+async function  createAccount(username, password) {
+    const url = '/register';
   
     const requestBody = {
       username: username,
