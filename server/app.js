@@ -5,16 +5,16 @@ const mongoose = require('mongoose');
 
 // Import routes and controllers
 const authRoutes = require('./routes/authRoutes');
-const tweetRoutes = require('./routes/tweetRoutes');
-const userRoutes = require('./routes/userRoutes');
+//const tweetRoutes = require('./routes/tweetRoutes');
+//const userRoutes = require('./routes/userRoutes');
 const authController = require('./controllers/authController');
-const tweetController = require('./controllers/tweetController');
-const userController = require('./controllers/userController');
+//const tweetController = require('./controllers/tweetController');
+//const userController = require('./controllers/userController');
 
 // Set up Express app
 const app = express();
 const port = process.env.PORT || 3000;
-app.use(express.static('public_html'));
+app.use(express.static('../client/public_html'));
 
 // Connect to MongoDB database
 mongoose.connect('mongodb://localhost/twitter-clone', { useNewUrlParser: true, useUnifiedTopology: true })
@@ -26,8 +26,8 @@ app.use(express.json());
 
 // Mount routes
 app.use('/auth', authRoutes);
-app.use('/tweets', tweetRoutes);
-app.use('/users', userRoutes);
+//app.use('/tweets', tweetRoutes);
+//app.use('/users', userRoutes);
 
 
 // Start server

@@ -1,6 +1,6 @@
 const User = require('../models/user');
 // create a user
-exports.createUser = async (req,res) =>{
+exports.register = async (req,res) =>{
     try{
         const user = new User({
             username: req.body.username,
