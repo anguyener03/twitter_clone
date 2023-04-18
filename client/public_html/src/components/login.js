@@ -7,24 +7,42 @@ document.addEventListener("DOMContentLoaded",()=>{
     */
     const loginForm = document.querySelector("#loginDiv");
     const createForm = document.querySelector("#createDiv");
+
+    const createUserUsername = document.querySelector("#usernameCreate");
+    const createUserPassword = document.querySelector("#passwordCreate");
+    
+    const loginUsername = document.querySelector("#usernameLogin");
+    const loginPassword = document.querySelector("#passwordLogin");
+
     document.getElementById("goToLogin").addEventListener("click", (e) =>{
+      document.querySelector("#loginMessage").classList.add("hidden");
         e.preventDefault();
+        createUserUsername.value = "";
+        createUserPassword.value = "";
+        loginUsername.value = "";
+        loginPassword.value = "";
+
         loginForm.classList.remove("hidden");
         createForm.classList.add("hidden");
     });
-    document.getElementById("goToCreate").addEventListener("click", (e) =>{
+    document.getElementById("goToCreate").addEventListener("click", (e) =>{        
+      document.querySelector("#createMessage").classList.add("hidden");
         e.preventDefault();
+        createUserUsername.value = "";
+        createUserPassword.value = "";
+        loginUsername.value = "";
+        loginPassword.value = "";
+
         createForm.classList.remove("hidden");
         loginForm.classList.add("hidden");
     });
-    const createUserUsername = document.querySelector("#usernameCreate");
-    const createUserPassword = document.querySelector("#passwordCreate")
+    
     /**
      * Handles the creation of a user
      */
     document.getElementById("createButton").addEventListener("click",async (e) =>{
         // checks to see if anyfields are blank
-        if(createUserPassword.value == "" || createUserUsername.value=="blank"){
+        if(createUserPassword.value == "" || createUserUsername.value==""){
             createUserPassword.value == "";
             createUserPassword.value == "";
             // update the message field
@@ -33,18 +51,26 @@ document.addEventListener("DOMContentLoaded",()=>{
         }
         document.querySelector("#createMessage").classList.add("hidden");
         // sends the username and password to the backend
-        const user = await createAccount(createUserUsername.value,createUserPassword.value).catch(error =>{
+        const user = await createAccount(createUserUsername.value,createUserPassword.value)
+        .then(user => 
+          {
+            if(user.duplicate){
+              document.querySelector("#createMessage").classList.remove("hidden");
+              document.querySelector("#createMessage").textContent = "Username already Taken";
+            }
+            else{// if sucess go to login page
+          createForm.classList.add("hidden");
+          loginForm.classList.remove("hidden");}
+        })
+        .catch(error =>{
+          console.log(error);
           document.querySelector("#createMessage").classList.remove("hidden");
-          document.querySelector("#createMessage").textContent = "Username already Taken"
+          document.querySelector("#createMessage").textContent = "Error making User";
         });
-        // if sucess go to login page
-        createForm.classList.add("hidden");
-        loginForm.classList.remove("hidden");
+
     });
     /*handles logins
     */
-   const loginUsername = document.querySelector("#usernameLogin");
-   const loginPassword = document.querySelector("#passwordLogin");
    document.getElementById("loginButton").addEventListener("click",(e) =>{
     //checks to see if any fields are blank
     if(loginUsername.value == "" || loginPassword.value=="blank"){
@@ -52,14 +78,12 @@ document.addEventListener("DOMContentLoaded",()=>{
         loginPassword.value == "";
         // update the message field
         document.querySelector("#loginMessage").classList.remove("hidden");
-        document.querySelector("#loginMessage").textContent = "Please fill out all the Fields"
-    }
-
-   });
-    
+        document.querySelector("#loginMessage").textContent = "Please fill out all the Fields";
+    }    
+   });    
 });
 async function  createAccount(username, password) {
-    const url = '/register';
+    const url = '/auth/register';
   
     const requestBody = {
       username: username,
@@ -71,12 +95,27 @@ async function  createAccount(username, password) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(requestBody)
     };
-  
-    return fetch(url, requestOptions)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Error creating account');
-        }
-        return response.json();
-      });
+    const response = await fetch(url,requestOptions);
+    return response.json();
   }
+async function attemptLogin(username, password){
+  fetch('/auth/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ username: username, password: password })
+  })
+  .then(response => {
+    if (response.ok) {
+      // Redirect to home.html upon successful login
+      window.location.href('../home.html');
+    } else {
+      // Display error message if login fails
+      document.querySelector("#loginMessage").classList.remove("hidden");
+      document.querySelector("#loginMessage").textContent("Error Loggin In")
+
+    }
+  })
+  .catch(error => console.error(error));
+}
