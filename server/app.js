@@ -2,6 +2,8 @@
 // Import required modules
 const express = require('express');
 const mongoose = require('mongoose');
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
 
 // Import routes and controllers
 const authRoutes = require('./routes/authRoutes');
@@ -15,6 +17,14 @@ const authController = require('./controllers/authController');
 const app = express();
 const port = process.env.PORT || 3000;
 app.use(express.static('../client/public_html'));
+app.use(cookieParser);
+app.use(session({
+  secret: 'my-secret-key',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: true }
+}));
+
 
 const uri = "mongodb+srv://adlertnguyen:adlernguyen@twitter-clone.oarbq3n.mongodb.net/test";
 // Connect to MongoDB database

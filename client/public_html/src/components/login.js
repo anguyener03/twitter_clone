@@ -83,7 +83,7 @@ document.addEventListener("DOMContentLoaded",()=>{
       const login = await attemptLogin(document.getElementById("usernameLogin").value, document.getElementById("passwordLogin").value)
       .then(login =>{
         if(login.success){
-          window.location.href = '../home.html'
+          window.location.href = '../home.html';  
         }
         else{
           // Display error message if login fails

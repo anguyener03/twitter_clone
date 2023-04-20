@@ -1,5 +1,6 @@
 const User = require('../models/user');
 const bcrypt = require('bcrypt');
+const session = require('express-session');
 // create a user
 exports.register = async (req,res) =>{
     // hash the password
@@ -44,6 +45,7 @@ exports.login = async (req,res) =>{
 
         }
         // implement  coookie
+        res.cookie('userID', user._id, { maxAge: 3600000 }); // cookie expires in 1 hour    
         res.status(200);
         res.send({success: true});
     }
@@ -52,4 +54,8 @@ exports.login = async (req,res) =>{
         res.status(500).json({sucess : 'Server Error'});
     }
 
+};
+exports.logout = async (req,res)=>{
+    res.clearCookie('userID');
+    res.send("logout");
 };
