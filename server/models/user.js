@@ -12,10 +12,13 @@ const userSchema = new mongoose.Schema({
     tweets: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Tweet' }]
 });
 // TODO compare password function. Implement salting and hasing
-userSchema.methods.comparePassword = function(candidatePassword, callback){
-    bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
-        if (err) return callback(err);
-        callback(null, isMatch);
-      });
-};
+userSchema.methods.comparePassword = async function(candidatePassword){
+    try {
+        const match = await bcrypt.compare(candidatePassword, this.password);
+        return match;
+      } catch (error) {
+        console.error(error);
+        return false;
+      }
+    };
 module.exports = mongoose.model('User', userSchema);

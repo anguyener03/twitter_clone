@@ -30,9 +30,11 @@ exports.register = async (req,res) =>{
 };
 // logging in
 exports.login = async (req,res) =>{
-    const {username, password} = req.body;
+    const u = req.body.username;
+    const password = req.body.password;
+    
     try{
-        const user = await User.findOne({username});
+        const user = await User.findOne({username: u});
         if(!user){
             return res.status(401).json({error:"Invalid Username or Passowrd "})
         }
@@ -42,11 +44,12 @@ exports.login = async (req,res) =>{
 
         }
         // implement  coookie
-        res.status(200).json({cookie});
+        res.status(200);
+        res.send({success: true});
     }
     catch(error){
         console.log(error);
-        res.status(500).json({error : 'Server Error'});
+        res.status(500).json({sucess : 'Server Error'});
     }
 
 };

@@ -71,14 +71,26 @@ document.addEventListener("DOMContentLoaded",()=>{
     });
     /*handles logins
     */
-   document.getElementById("loginButton").addEventListener("click",(e) =>{
+   document.getElementById("loginButton").addEventListener("click", async (e) =>{
     //checks to see if any fields are blank
     if(loginUsername.value == "" || loginPassword.value=="blank"){
         loginUsername.value == "";
         loginPassword.value == "";
         // update the message field
         document.querySelector("#loginMessage").classList.remove("hidden");
-        document.querySelector("#loginMessage").textContent = "Please fill out all the Fields";
+        document.querySelector("#loginMessage").value = "Please fill out all the Fields";
+    }else{
+      const login = await attemptLogin(document.getElementById("usernameLogin").value, document.getElementById("passwordLogin").value)
+      .then(login =>{
+        if(login.success){
+          window.location.href = '../home.html'
+        }
+        else{
+          // Display error message if login fails
+          document.querySelector("#loginMessage").classList.remove("hidden");
+          document.querySelector("#loginMessage").textContent =   ("Error Loggin In")
+        }
+      })
     }    
    });    
 });
@@ -99,23 +111,13 @@ async function  createAccount(username, password) {
     return response.json();
   }
 async function attemptLogin(username, password){
-  fetch('/auth/login', {
+  const response = await fetch('/auth/login', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({ username: username, password: password })
   })
-  .then(response => {
-    if (response.ok) {
-      // Redirect to home.html upon successful login
-      window.location.href('../home.html');
-    } else {
-      // Display error message if login fails
-      document.querySelector("#loginMessage").classList.remove("hidden");
-      document.querySelector("#loginMessage").textContent("Error Loggin In")
-
-    }
-  })
-  .catch(error => console.error(error));
+  return response.json();
+ 
 }
