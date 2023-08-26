@@ -1,2 +1,2 @@
 # twitter_clone
-This is a twitter clone for the csc 337. Created by Adler Nguyen and Anthony Vo.
+This is the front-end and backend code for a twitter clone.
