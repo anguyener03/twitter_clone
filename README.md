@@ -7,7 +7,7 @@ This project is a full-stack Twitter clone developed using MongoDB, Express, Van
 -Follow System: Follow and unfollow users to customize your following feed.
 -Following Feed: See tweets from the users you follow in real-time.
 -Responsive Design: Adapted for various screen sizes to ensure a great user experience on desktop and mobile devices.
-##Technologies Used
+## Technologies Used
 -Frontend: Vanilla JS, HTML, CSS, JavaScript
 -Backend: Node.js, Express.js, MongoDB
 -Database: MongoDB (NoSQL database for storing user data and tweets)
