@@ -1,0 +1,19 @@
+version: 1.0
+runtime: DOCKER
+
+build:
+  commands:
+    build:
+      - echo "Docker build handled by App Runner"
+
+run:
+  runtime-version: latest
+  command: node server/server.js
+  network:
+    port: 3000
+    env: PORT
+  env:
+    - name: NODE_ENV
+      value: production
+    - name: MONGO_URI
+      value: YOUR_MONGODB_ATLAS_URI_HERE

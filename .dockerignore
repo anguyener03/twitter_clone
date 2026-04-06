@@ -1,0 +1,10 @@
+node_modules
+server/node_modules
+server/tests
+server/jest.config.js
+server/tests/globalSetup.js
+server/tests/globalTeardown.js
+.git
+.gitignore
+README.md
+*.md
