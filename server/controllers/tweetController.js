@@ -41,11 +41,42 @@ exports.createTweet = async (req, res) => {
 // GET /tweets/feed
 exports.getFeed = async (req, res) => {
   try {
-    const tweets = await Tweet.find()
+    const currentUser = await User.findById(req.cookies.userID).select('following');
+    const authorIds = [req.cookies.userID, ...currentUser.following];
+
+    const tweets = await Tweet.find({ author: { $in: authorIds } })
       .sort({ created: -1 })
       .populate('author', 'username');
 
     res.status(200).json(tweets);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server error' });
+  }
+};
+
+// POST /tweets/:id/like  (toggle)
+exports.toggleLike = async (req, res) => {
+  const userId = req.cookies.userID;
+
+  try {
+    const tweet = await Tweet.findById(req.params.id);
+    if (!tweet) {
+      return res.status(404).json({ error: 'Tweet not found' });
+    }
+
+    const alreadyLiked = tweet.likes.map(String).includes(String(userId));
+    if (alreadyLiked) {
+      tweet.likes.pull(userId);
+    } else {
+      tweet.likes.push(userId);
+    }
+    await tweet.save();
+
+    res.status(200).json({
+      liked: !alreadyLiked,
+      likeCount: tweet.likes.length,
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Server error' });

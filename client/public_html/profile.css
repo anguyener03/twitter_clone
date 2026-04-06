@@ -1,0 +1,286 @@
+/* Profile-specific styles — builds on home.css variables */
+:root {
+  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --bg: #000;
+  --surface: #16181c;
+  --border: #2f3336;
+  --text: #e7e9ea;
+  --text-muted: #71767b;
+  --blue: #1d9bf0;
+  --hover-bg: rgba(231,233,234,0.07);
+  --delete: #f4212e;
+}
+
+.profile-feed-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.back-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  color: var(--text);
+  transition: background 0.15s;
+  flex-shrink: 0;
+}
+.back-btn:hover { background: var(--hover-bg); }
+.back-btn svg { width: 20px; height: 20px; }
+
+.profile-tweet-count {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  display: block;
+  line-height: 1;
+}
+
+/* ── Banner ── */
+.profile-banner {
+  width: 100%;
+  height: 200px;
+  background: #333639;
+  background-size: cover;
+  background-position: center;
+}
+
+/* ── Avatar + actions row ── */
+.profile-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 12px 16px 0;
+  margin-top: -4px;
+}
+
+.profile-avatar-wrap {
+  margin-top: -54px;
+}
+
+.profile-avatar {
+  width: 108px;
+  height: 108px;
+  border-radius: 50%;
+  border: 4px solid #000;
+  background: var(--blue);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #fff;
+  background-size: cover;
+  background-position: center;
+}
+
+.profile-action-btns {
+  display: flex;
+  gap: 8px;
+  padding-top: 4px;
+}
+
+.profile-action-btns button {
+  padding: 8px 16px;
+  border-radius: 9999px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: var(--font);
+  transition: background 0.15s, color 0.15s;
+}
+
+/* Edit profile / Follow / Unfollow buttons */
+#editProfileBtn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+#editProfileBtn:hover { background: var(--hover-bg); }
+
+#followBtn {
+  background: var(--text);
+  border: 1px solid transparent;
+  color: #000;
+}
+#followBtn:hover { background: #d7dbdc; }
+
+#followBtn.following-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+#followBtn.following-btn:hover {
+  border-color: var(--delete);
+  color: var(--delete);
+  background: rgba(244,33,46,0.1);
+}
+
+/* ── User info block ── */
+.profile-info {
+  padding: 12px 16px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.profile-display-name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+
+.profile-handle {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  display: block;
+  margin-bottom: 10px;
+}
+
+.profile-bio {
+  font-size: 0.95rem;
+  color: var(--text);
+  line-height: 1.5;
+  margin-bottom: 12px;
+  white-space: pre-wrap;
+}
+
+.profile-stats {
+  display: flex;
+  gap: 20px;
+}
+
+.stat-link {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: text-decoration 0.1s;
+}
+.stat-link:hover { text-decoration: underline; }
+.stat-link span:first-child {
+  font-weight: 700;
+  color: var(--text);
+}
+.stat-label { color: var(--text-muted); }
+
+/* ── Edit form ── */
+.edit-form {
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+}
+
+.edit-form-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.edit-form-header h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.edit-close-btn {
+  background: none;
+  border: none;
+  color: var(--text);
+  font-size: 1rem;
+  padding: 6px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.15s;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.edit-close-btn:hover { background: var(--hover-bg); }
+
+.btn-save {
+  background: var(--text);
+  border: none;
+  border-radius: 9999px;
+  color: #000;
+  font-size: 0.9rem;
+  font-weight: 700;
+  padding: 6px 16px;
+  cursor: pointer;
+  font-family: var(--font);
+  transition: background 0.15s;
+}
+.btn-save:hover { background: #d7dbdc; }
+
+.edit-form-body {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.edit-label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.edit-label textarea,
+.edit-label input[type="text"] {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text);
+  font-size: 0.95rem;
+  font-family: var(--font);
+  padding: 10px 12px;
+  outline: none;
+  resize: vertical;
+  transition: border-color 0.15s;
+}
+.edit-label textarea:focus,
+.edit-label input[type="text"]:focus { border-color: var(--blue); }
+
+.edit-error {
+  color: #f4212e;
+  font-size: 0.85rem;
+}
+
+/* ── Tabs ── */
+.profile-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+}
+
+.profile-tab {
+  flex: 1;
+  text-align: center;
+  padding: 16px 0;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  cursor: pointer;
+  position: relative;
+  transition: background 0.15s, color 0.15s;
+}
+.profile-tab:hover { background: var(--hover-bg); color: var(--text); }
+.profile-tab.active {
+  font-weight: 700;
+  color: var(--text);
+}
+.profile-tab.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 56px;
+  height: 4px;
+  background: var(--blue);
+  border-radius: 9999px;
+}

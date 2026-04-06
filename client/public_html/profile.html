@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chirper / Profile</title>
+    <link rel="stylesheet" href="home.css">
+    <link rel="stylesheet" href="profile.css">
+    <script src="./src/components/profile.js" defer></script>
+  </head>
+  <body>
+    <div class="app">
+
+      <!-- ── Left Sidebar ── -->
+      <nav class="sidebar">
+        <a href="/home.html" class="nav-logo" aria-label="Chirper home">
+          <svg viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M191.179 273.824C240.235 297.511 305.516 282.723 327.848 235.07C343.653 201.345 294.142 174.478 268.869 180.597C249.795 185.215 238.443 210.424 226.139 201.065C216.677 165.605 199.9 119.51 135.192 107.37C114.091 103.412 83.5311 110.64 102.336 135.815C116.496 154.766 137.36 163.983 158.442 173.765C164.792 176.714 169.78 183.842 176.581 185.72C178.199 186.166 181.717 185.007 181.525 186.671C181.105 190.238 113.899 155.977 108.125 179.498C103.955 196.484 152.426 206.208 162.693 208.177C163.338 208.3 167.696 208.583 167.631 209.126C167.291 212.044 128.996 205.366 122.548 219.126C113.925 237.519 146.169 239.099 156.097 238.053C164.394 237.176 172.809 236.947 180.889 235.438C181.156 235.389 194.153 233.997 169.23 238.769C147.16 242.995 90.4779 253.756 88.9641 262.487C87.4503 271.218 95.0462 273.682 99.275 281.556C103.504 289.429 106.52 291.001 110.939 295.051C115.357 299.1 142.753 259.14 172.051 268.915M323.418 199.974C348.126 209.727 352.589 199.404 329.977 213.31M291.997 210.007C291.781 209.411 291.563 208.813 291.345 208.215" stroke="white" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+
+        <ul class="nav-list">
+          <li>
+            <a class="nav-item" href="/home.html">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M11.3103 1.77586C11.6966 1.40805 12.3034 1.40805 12.6897 1.77586L20.6897 9.39491L23.1897 11.7759C23.5896 12.1567 23.605 12.7897 23.2241 13.1897C22.8433 13.5896 22.2103 13.605 21.8103 13.2241L21 12.4524V20C21 21.1046 20.1046 22 19 22H14H10H5C3.89543 22 3 21.1046 3 20V12.4524L2.18966 13.2241C1.78972 13.605 1.15675 13.5896 0.775862 13.1897C0.394976 12.7897 0.410414 12.1567 0.810345 11.7759L3.31034 9.39491L11.3103 1.77586ZM5 10.5476V20H9V15C9 13.3431 10.3431 12 12 12C13.6569 12 15 13.3431 15 15V20H19V10.5476L12 3.88095L5 10.5476ZM13 20V15C13 14.4477 12.5523 14 12 14C11.4477 14 11 14.4477 11 15V20H13Z"/></svg>
+              <span>Home</span>
+            </a>
+          </li>
+          <li>
+            <a class="nav-item active" href="#" id="myProfileLink">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.863 13.44c1.477 1.58 2.366 3.67 2.632 6.46l.11 1.1H3.395l.11-1.1c.266-2.79 1.155-4.88 2.632-6.46C7.627 11.85 9.648 11 12 11s4.373.85 5.863 2.44zM12 2C9.791 2 8 3.79 8 6s1.791 4 4 4 4-1.79 4-4-1.791-4-4-4z"/></svg>
+              <span>Profile</span>
+            </a>
+          </li>
+        </ul>
+
+        <div class="sidebar-user">
+          <div class="sidebar-avatar" id="sidebarAvatar"></div>
+          <div class="sidebar-user-info">
+            <span class="sidebar-name" id="sidebarName"></span>
+            <span class="sidebar-handle" id="sidebarHandle"></span>
+          </div>
+          <button id="logoutBtn" class="logout-icon" title="Log out">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5-5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg>
+          </button>
+        </div>
+      </nav>
+
+      <!-- ── Profile main ── -->
+      <main class="feed-column middle-column">
+        <!-- Back header -->
+        <div class="feed-header profile-feed-header">
+          <a href="/home.html" class="back-btn">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7.414 13l5.043 5.04-1.414 1.42L3.586 12l7.457-7.46 1.414 1.42L7.414 11H21v2H7.414z"/></svg>
+          </a>
+          <div>
+            <h2 id="profileUsername"></h2>
+            <span class="profile-tweet-count" id="profileTweetCount"></span>
+          </div>
+        </div>
+
+        <!-- Banner -->
+        <div class="profile-banner" id="profileBanner"></div>
+
+        <!-- Avatar + actions row -->
+        <div class="profile-top-row">
+          <div class="profile-avatar-wrap">
+            <div class="profile-avatar" id="profileAvatar"></div>
+          </div>
+          <div id="profileActions" class="profile-action-btns"></div>
+        </div>
+
+        <!-- User info -->
+        <div class="profile-info">
+          <h3 class="profile-display-name" id="profileDisplayName"></h3>
+          <span class="profile-handle" id="profileHandleDisplay"></span>
+          <p class="profile-bio" id="profileBio"></p>
+          <div class="profile-stats">
+            <a href="#" class="stat-link"><span id="followingCount">0</span> <span class="stat-label">Following</span></a>
+            <a href="#" class="stat-link"><span id="followerCount">0</span> <span class="stat-label">Followers</span></a>
+          </div>
+        </div>
+
+        <!-- Edit form (own profile only) -->
+        <div id="editForm" class="edit-form hidden">
+          <div class="edit-form-header">
+            <button id="cancelEditBtn" class="edit-close-btn">✕</button>
+            <h3>Edit profile</h3>
+            <button id="saveProfileBtn" class="btn-save">Save</button>
+          </div>
+          <div class="edit-form-body">
+            <label class="edit-label">
+              Bio
+              <textarea id="editBio" maxlength="160" rows="3" placeholder="Your bio"></textarea>
+            </label>
+            <label class="edit-label">
+              Profile image URL
+              <input type="text" id="editProfileImage" placeholder="https://...">
+            </label>
+            <p id="editError" class="edit-error hidden"></p>
+          </div>
+        </div>
+
+        <!-- Tweets tab strip -->
+        <div class="profile-tabs">
+          <div class="profile-tab active">Posts</div>
+        </div>
+
+        <!-- Tweets -->
+        <div id="profileTweets" class="timeline"></div>
+      </main>
+
+      <!-- ── Right sidebar ── -->
+      <aside class="right-sidebar">
+        <div class="search-bar">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"/></svg>
+          <input type="text" placeholder="Search people">
+        </div>
+        <div id="searchResults" class="search-results"></div>
+      </aside>
+
+    </div>
+  </body>
+</html>

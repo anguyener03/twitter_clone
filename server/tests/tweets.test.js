@@ -149,12 +149,18 @@ describe('GET /tweets/feed', () => {
     expect(res.body[0].author.password).toBeUndefined();
   });
 
-  test('returns tweets from multiple users', async () => {
+  test('returns tweets from followed users and own tweets', async () => {
     const user1 = await registerAndLogin('alice');
     const user2 = await registerAndLogin('bob');
 
     await request(app).post('/tweets/create').set('Cookie', user1.cookie).send({ text: 'alice tweet' });
     await request(app).post('/tweets/create').set('Cookie', user2.cookie).send({ text: 'bob tweet' });
+
+    // alice follows bob so bob's tweet appears in her feed
+    const bobUser = await User.findOne({ username: 'bob' });
+    await request(app)
+      .post(`/users/${bobUser._id}/follow`)
+      .set('Cookie', user1.cookie);
 
     const res = await request(app)
       .get('/tweets/feed')

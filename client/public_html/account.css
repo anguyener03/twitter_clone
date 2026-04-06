@@ -1,92 +1,146 @@
-/* css for the account login/ creation page
-*/
-body {
-    background-color: #113f67;
-    font-family: Arial, sans-serif;
-    overflow: hidden;
-  }
-  
-  .segment {
-    background-color: #1DA1F2;
-    color: #fff;
-    text-align: center;
-    padding: 20px;
-  }
-  .formDiv{
-    background-color:#a2a8d3;
-    border-radius: 5px;
-    box-shadow: 0px 0px 5px #888888;
-    margin: 20px auto;
-    max-width: 400px;
-    padding: 20px;
-  }
-  
-  div div {
-    color: #e7eaf6;
-    font-size: 36px;
-    font-weight: bold;
-    margin-bottom: 10px;
-    padding: 10px;
-    text-align: center;
-  }
-  
-  label {
-    display: block;
-    font-size: 18px;
-    margin-bottom: 5px;
-  }
-  p{
-    margin: 0px;
-    padding: 0px;
-    font-size: 14px;
-  }
-  
-  input[type="text"],
-  input[type="password"]{
-    background-color: #E8F6FF;
-    border-radius: 5px;
-    border: none;
-    font-size: 16px;
-    padding: 10px;
-    width: 100%;
-    box-sizing: border-box;
-  }
-  
-  input[type="text"],
-  input[type="password"] {
-    margin-bottom: 10px;
-  }
-  .link{
-    color: #e7eaf6;
-    text-decoration: none;
-    cursor: pointer;
-  }
-  .link:hover{ 
-    text-decoration: underline;
-  }
-  input[type="button"] {
-    background-color: #38598b;
-    color: #e7eaf6;
-    cursor: pointer;
-    text-align: center;
-    border-radius: 5px;
-    border: none;
-    font-size: 16px;
-    padding: 15px;
-    width: 100%;
-    box-sizing: border-box;
-  }
-  input[type="button"]:hover{
-    background-color: #113f67 ;
-  }
-  input[type="button"]:active{
-    transform: scale(0.98);
-  }
-  .hidden{
-    display: none;
-  }
-  .formMessage{
-    color:red;
-    font-size: 16px;
-  }
-  
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #000;
+  --surface: #16181c;
+  --border: #2f3336;
+  --text: #e7e9ea;
+  --text-muted: #71767b;
+  --blue: #1d9bf0;
+  --blue-hover: #1a8cd8;
+  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+html, body { height: 100%; background: var(--bg); color: var(--text); font-family: var(--font); }
+
+.login-page {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ── Left branding ── */
+.brand-panel {
+  flex: 1;
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.brand-logo {
+  width: min(350px, 45vw);
+  height: auto;
+}
+
+/* ── Right form panel ── */
+.form-panel {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 2rem 3rem;
+}
+
+.form-container {
+  width: 100%;
+  max-width: 400px;
+}
+
+.form-logo {
+  width: 40px;
+  height: 40px;
+  margin-bottom: 2rem;
+}
+
+h1 {
+  font-size: 2rem;
+  font-weight: 900;
+  margin-bottom: 0.5rem;
+  color: var(--text);
+}
+
+h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  color: var(--text);
+}
+
+/* ── Auth forms ── */
+.auth-form h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 1.25rem;
+  color: var(--text);
+}
+
+.auth-form input {
+  display: block;
+  width: 100%;
+  padding: 0.85rem 1rem;
+  margin-bottom: 0.75rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text);
+  font-size: 1rem;
+  font-family: var(--font);
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.auth-form input:focus { border-color: var(--blue); }
+.auth-form input::placeholder { color: var(--text-muted); }
+
+.btn-primary {
+  display: block;
+  width: 100%;
+  padding: 0.85rem;
+  margin-top: 0.5rem;
+  background: var(--blue);
+  border: none;
+  border-radius: 9999px;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 700;
+  font-family: var(--font);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.btn-primary:hover { background: var(--blue-hover); }
+.btn-primary:active { transform: scale(0.98); }
+
+.switch-link {
+  margin-top: 1.25rem;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.link {
+  color: var(--blue);
+  text-decoration: none;
+  font-weight: 600;
+}
+.link:hover { text-decoration: underline; }
+
+.formMessage {
+  padding: 0.6rem 0.75rem;
+  margin-bottom: 0.75rem;
+  background: rgba(249, 24, 128, 0.1);
+  border: 1px solid rgba(249, 24, 128, 0.3);
+  border-radius: 4px;
+  color: #f4212e;
+  font-size: 0.9rem;
+}
+
+.hidden { display: none !important; }
+
+/* Mobile: stack panels */
+@media (max-width: 700px) {
+  .login-page { flex-direction: column; }
+  .brand-panel { flex: none; padding: 2rem; }
+  .brand-logo { width: 60px; }
+  .form-panel { justify-content: center; padding: 1.5rem; }
+}

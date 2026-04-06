@@ -4,20 +4,23 @@ A full-stack Twitter clone built with MongoDB, Express, Vanilla JavaScript, and 
 
 ## Current Status
 
-> **~20-30% complete.** Authentication works. Core features (tweets, feed, follows, likes, profiles) are not yet implemented.
+> **✅ Feature-complete.** All 5 phases implemented, 67 backend tests passing.
 
 | Feature | Status |
 |---------|--------|
 | User registration | ✅ Done |
-| User login | ✅ Done |
-| Home page layout (UI) | ✅ Done |
-| Tweet creation (backend) | ❌ Missing |
-| Tweet feed | ❌ Missing |
-| Follow / unfollow | ❌ Missing |
-| Likes | ❌ Missing |
-| User profiles | ❌ Missing |
-| Image uploads | ❌ Missing |
-| Logout route | ⚠️ Partial |
+| User login / logout | ✅ Done |
+| Tweet creation | ✅ Done |
+| Tweet feed (follow-filtered) | ✅ Done |
+| Tweet deletion | ✅ Done |
+| Follow / unfollow | ✅ Done |
+| Likes (toggle) | ✅ Done |
+| User profiles (view + edit) | ✅ Done |
+| User search | ✅ Done |
+| Home page — fully wired frontend | ✅ Done |
+| Profile page | ✅ Done |
+| Relative timestamps on tweets | ✅ Done |
+| Image uploads (Multer) | ❌ Not implemented |
 
 ---
 
@@ -27,7 +30,7 @@ A full-stack Twitter clone built with MongoDB, Express, Vanilla JavaScript, and 
 - **Backend:** Node.js, Express.js
 - **Database:** MongoDB + Mongoose
 - **Auth:** bcrypt + express-session (cookie-based)
-- **Image Uploads:** Multer (planned)
+- **Testing:** Jest + Supertest + mongodb-memory-server (67 tests)
 
 ---
 
@@ -37,57 +40,96 @@ A full-stack Twitter clone built with MongoDB, Express, Vanilla JavaScript, and 
 # Install server dependencies
 cd server && npm install
 
-# Start the server
-node app.js
+# Run tests
+npm test
 
-# Open the frontend
-open client/public_html/index.html
+# Start the server
+npm start
 ```
 
-Make sure MongoDB is running locally (default: `mongodb://localhost:27017`).
+Then open `client/public_html/index.html` in your browser (or serve it via the Express static middleware).
+
+Make sure MongoDB is running (or update the URI in `server/server.js`).
 
 ---
 
 ## Build Roadmap
 
-Work through phases in order — each phase depends on the previous one.
+### Phase 1 — Core Tweets ✅ Complete
+- [x] `POST /tweets/create` — create a tweet (max 280 chars)
+- [x] `GET /tweets/feed` — fetch tweets
+- [x] `DELETE /tweets/:id` — delete own tweet
+- [x] Frontend: chirp form submits, feed renders on load
 
-### Phase 1 — Core Tweets
-> Everything else depends on tweets existing. Start here.
+### Phase 2 — Follow System ✅ Complete
+- [x] `POST /users/:id/follow` — follow a user
+- [x] `DELETE /users/:id/follow` — unfollow a user
+- [x] Feed filtered to own tweets + followed users
 
-- [ ] Create `server/controllers/tweetController.js`
-- [ ] Wire up `server/routes/tweetRoutes.js` (currently empty)
-- [ ] Uncomment tweet routes in `server/app.js`
-- [ ] `POST /tweets/create` — create a tweet
-- [ ] `GET /tweets/feed` — fetch all tweets (global feed to start)
-- [ ] `DELETE /tweets/:id` — delete own tweet
-- [ ] Frontend: submit chirp form → POST to `/tweets/create`
-- [ ] Frontend: fetch and render tweets in home feed on page load
+### Phase 3 — Likes ✅ Complete
+- [x] `POST /tweets/:id/like` — toggle like on/off
+- [x] Returns `liked` boolean and `likeCount`
+- [x] Frontend: heart button toggles state live
 
-### Phase 2 — Follow System
-- [ ] Create `server/routes/userRoutes.js`
-- [ ] Fill in `server/controllers/userController.js` (currently empty)
-- [ ] `POST /users/:id/follow` — follow a user (update both users' arrays)
-- [ ] `DELETE /users/:id/follow` — unfollow a user
-- [ ] `GET /tweets/feed` — filter feed to only show tweets from followed users
+### Phase 4 — User Profiles ✅ Complete
+- [x] `GET /users/:id` — username, bio, profileImage, follower/following counts, tweets
+- [x] `PUT /users/:id` — update own bio / profileImage (owner-only)
+- [x] `bio`, `profileImage`, timestamps added to User schema
+- [x] `profile.html` — view any profile, follow/unfollow, edit own profile
 
-### Phase 3 — Likes
-- [ ] Add `likes: [{ type: ObjectId, ref: 'User' }]` to Tweet schema
-- [ ] `POST /tweets/:id/like` — toggle like on/off
-- [ ] Frontend: like button shows count + toggles liked state
+### Phase 5 — Polish ✅ Complete
+- [x] `POST /auth/logout` — wired and clears cookie
+- [x] `GET /auth/me` — returns current user (used by frontend on load)
+- [x] `GET /users/search?q=` — case-insensitive partial username search
+- [x] Logout button in nav
+- [x] User search in right sidebar (debounced, 300ms)
+- [x] Relative timestamps on tweets (just now / 5m / 3h / 2d)
+- [x] Tweet cards with like + delete buttons
+- [x] Profile page with follow/unfollow and inline edit form
+- [ ] Multer image uploads (tweets + profile pictures)
 
-### Phase 4 — User Profiles
-- [ ] `GET /users/:id` — return profile info (bio, follower/following counts, tweets)
-- [ ] `PUT /users/:id` — update bio, profile image
-- [ ] Build out `client/public_html/nothing.html` → rename to `profile.html`
-- [ ] Add `bio`, `profileImage`, and timestamps to User schema
+---
 
-### Phase 5 — Polish
-- [ ] Wire logout into `server/routes/authRoutes.js` (handler exists, route missing)
-- [ ] Configure Multer for image uploads (tweets + profile images)
-- [ ] User search in right sidebar of home page
-- [ ] Add `createdAt` timestamps to tweets (display relative time)
-- [ ] Responsive/mobile layout improvements
+## API Reference
+
+### Auth
+| Method | Route | Auth | Description |
+|--------|-------|------|-------------|
+| POST | `/auth/register` | — | Register new user |
+| POST | `/auth/login` | — | Login, sets `userID` cookie |
+| POST | `/auth/logout` | — | Clear session cookie |
+| GET | `/auth/me` | ✅ | Get current logged-in user |
+
+### Tweets
+| Method | Route | Auth | Description |
+|--------|-------|------|-------------|
+| POST | `/tweets/create` | ✅ | Create a tweet (max 280 chars) |
+| GET | `/tweets/feed` | ✅ | Get feed (own + followed, newest first) |
+| POST | `/tweets/:id/like` | ✅ | Toggle like — returns `{ liked, likeCount }` |
+| DELETE | `/tweets/:id` | ✅ | Delete own tweet |
+
+### Users
+| Method | Route | Auth | Description |
+|--------|-------|------|-------------|
+| GET | `/users/search?q=` | ✅ | Search users by partial username |
+| GET | `/users/:id` | ✅ | Get profile (username, bio, counts, tweets) |
+| PUT | `/users/:id` | ✅ | Update own bio / profileImage |
+| POST | `/users/:id/follow` | ✅ | Follow a user |
+| DELETE | `/users/:id/follow` | ✅ | Unfollow a user |
+
+---
+
+## Test Coverage
+
+| Suite | Tests | Coverage |
+|-------|-------|----------|
+| tweets.test.js | 17 | create, feed, delete |
+| users.test.js | 15 | follow, unfollow, filtered feed |
+| likes.test.js | 8 | toggle like/unlike, multi-user |
+| profiles.test.js | 16 | GET profile, PUT profile |
+| auth.test.js | 5 | logout, /auth/me |
+| search.test.js | 6 | search cases, auth, edge cases |
+| **Total** | **67** | |
 
 ---
 
@@ -96,22 +138,39 @@ Work through phases in order — each phase depends on the previous one.
 ```
 twitter_clone/
 ├── server/
-│   ├── app.js                     # Express app + MongoDB connection
+│   ├── app.js                        # Express app (exported, no DB/listen)
+│   ├── server.js                     # Connects to MongoDB Atlas, starts server
+│   ├── jest.config.js                # Jest config
 │   ├── controllers/
-│   │   ├── authController.js      # ✅ register, login, logout
-│   │   ├── userController.js      # ❌ empty — needs follow/profile logic
-│   │   └── tweetController.js     # ❌ doesn't exist yet
+│   │   ├── authController.js         # register, login, logout, getMe
+│   │   ├── userController.js         # searchUsers, getProfile, updateProfile, follow, unfollow
+│   │   └── tweetController.js        # createTweet, getFeed, toggleLike, deleteTweet
 │   ├── models/
-│   │   ├── user.js                # ✅ schema with following/followers/tweets
-│   │   └── tweet.js               # ✅ basic schema (missing likes/image)
-│   └── routes/
-│       ├── authRoutes.js          # ✅ /auth/register, /auth/login
-│       └── tweetRoutes.js         # ❌ empty — needs all tweet routes
+│   │   ├── user.js                   # bio, profileImage, timestamps, following/followers/tweets
+│   │   └── tweet.js                  # text, author, likes[], created
+│   ├── routes/
+│   │   ├── authRoutes.js             # /auth/*
+│   │   ├── tweetRoutes.js            # /tweets/*
+│   │   └── userRoutes.js             # /users/*
+│   └── tests/
+│       ├── globalSetup.js            # starts mongodb-memory-server
+│       ├── globalTeardown.js         # stops mongodb-memory-server
+│       ├── setup.js                  # mongoose connect + collection wipe per test
+│       ├── tweets.test.js
+│       ├── users.test.js
+│       ├── likes.test.js
+│       ├── profiles.test.js
+│       ├── auth.test.js
+│       └── search.test.js
 └── client/public_html/
-    ├── index.html                 # ✅ login/register page
-    ├── home.html                  # ✅ main feed layout
-    ├── nothing.html               # ❌ stub — will become profile page
+    ├── index.html                    # login / register page
+    ├── account.css
+    ├── home.html                     # main feed
+    ├── home.css                      # feed + tweet card styles
+    ├── profile.html                  # user profile page
+    ├── profile.css
     └── src/components/
-        ├── login.js               # ✅ auth form logic
-        └── home.js                # ⚠️ partial — only toggles chirp box
+        ├── login.js                  # auth form logic
+        ├── home.js                   # feed, chirp, likes, delete, search, logout
+        └── profile.js                # profile view, edit, follow/unfollow, search
 ```
